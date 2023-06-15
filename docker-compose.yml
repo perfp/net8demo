@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    command: 
+    - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prom_data:/prometheus
+    restart: unless-stopped
+
+  locust:
+    image: generator:test
+    container_name: generator
+    ports: 
+      - 8089:8089
+    restart: unless-stopped
+
+volumes:
+  prom_data:
